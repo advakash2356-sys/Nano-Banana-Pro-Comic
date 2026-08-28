@@ -1,0 +1,6 @@
+{
+  "name": "Nano Banana Pro Comic",
+  "description": "An interactive watercolor-ink style comic tutorial for getting started with Nano Banana Pro 🍌.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
