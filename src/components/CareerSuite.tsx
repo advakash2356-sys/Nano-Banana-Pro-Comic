@@ -61,6 +61,7 @@ export default function CareerSuite() {
   const [roleMode, setRoleMode] = useState<RoleMode>('admin');
   const [currentEmail, setCurrentEmail] = useState<string>('adv.akash2356@gmail.com');
   const [mcpConnectors, setMcpConnectors] = useState<McpConnector[]>(initialMcpConnectors);
+  const [showKeys, setShowKeys] = useState(false);
   // Persist user-entered keys locally (browser only, never committed)
   useEffect(() => {
     const keys: Record<string, string> = {};
@@ -631,7 +632,8 @@ ${COMPLIANCE_DISCLAIMER}
                   <div className="mt-2.5 flex items-center gap-2 bg-[#030303] p-1.5 rounded-lg border border-white/5">
                     <Key className="w-3.5 h-3.5 text-neutral-400" />
                     <input 
-                      type="password"
+                      type={showKeys ? 'text' : 'password'}
+                      autoComplete="off"
                       value={conn.apiKeyValue}
                       placeholder={`Paste ${conn.requiredKey}...`}
                       onChange={(e) => {
@@ -645,6 +647,14 @@ ${COMPLIANCE_DISCLAIMER}
                       }}
                       className="bg-transparent text-[10px] font-mono border-none outline-none flex-1 text-neutral-400 focus:ring-0 p-0"
                     />
+                    <button type="button" onClick={() => setShowKeys(v => !v)} className="text-[8px] font-mono text-neutral-400 underline">{showKeys ? 'HIDE' : 'SHOW'}</button>
+                    {conn.apiKeyValue && (
+                      <button
+                        type="button"
+                        onClick={() => setMcpConnectors(prev => prev.map(c => c.id === conn.id ? { ...c, apiKeyValue: '', status: 'inactive' as const } : c))}
+                        className="text-[8px] font-mono text-red-400 underline"
+                      >REMOVE</button>
+                    )}
                     {conn.apiKeyValue ? (
                       <span className="text-[8px] font-mono text-emerald-400 font-bold">CONFIGURED</span>
                     ) : (
@@ -655,6 +665,8 @@ ${COMPLIANCE_DISCLAIMER}
               ))}
             </div>
           </div>
+
+          <p className="text-[9px] font-mono text-neutral-500">Privacy: keys are stored only in this browser (localStorage), never committed or logged, and this demo does not send them anywhere. Use REMOVE to delete a key.</p>
 
           {/* Section: Quick Whitelist Submission Form (For Visitors / Anonymous) */}
           {roleMode === 'visitor' && (

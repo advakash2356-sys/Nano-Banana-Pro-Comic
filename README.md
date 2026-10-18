@@ -85,6 +85,6 @@ Open http://localhost:3000 after `npm run dev`. The application entry point is c
 
 ## Your API keys
 
-No keys are committed. Open the MCP Hub panel in the app and paste your own key for each connector (e.g. `GEMINI_API_KEY`); it is saved only in your browser's `localStorage`. Optionally set `VITE_GEMINI_API_KEY` in a local `.env` (git-ignored; see `.env.example`). Note: the connectors in this demo are simulated; the UI does not send your keys anywhere.
+No keys are committed. Open the MCP Hub panel in the app and paste your own key for each connector (e.g. `GEMINI_API_KEY`); it is saved only in your browser's `localStorage`. Optionally set `VITE_GEMINI_API_KEY` in a local `.env` (git-ignored; see `.env.example`). Each key field is masked (SHOW/HIDE toggle) and has a REMOVE button. Keys are never committed or logged. Note: the connectors in this demo are simulated; the UI does not send your keys anywhere.
 
-> Earlier commits contained a placeholder-style key and scraped dump files. If any real Google key was ever committed, rotate it in the Google Cloud console, since git history keeps it.
+> Git history was rewritten (Oct 2026) to remove earlier scraped dump files and key-like strings. If you cloned before that, re-clone.
