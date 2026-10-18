@@ -13,7 +13,7 @@ import {
   RoleMode 
 } from '../types';
 import { 
-  initialMcpConnectors, 
+  initialMcpConnectors, MCP_KEYS_STORAGE, 
   initialCandidateProfiles, 
   initialWishlistApplicants, 
   scrapedJobsList, 
@@ -61,6 +61,12 @@ export default function CareerSuite() {
   const [roleMode, setRoleMode] = useState<RoleMode>('admin');
   const [currentEmail, setCurrentEmail] = useState<string>('adv.akash2356@gmail.com');
   const [mcpConnectors, setMcpConnectors] = useState<McpConnector[]>(initialMcpConnectors);
+  // Persist user-entered keys locally (browser only, never committed)
+  useEffect(() => {
+    const keys: Record<string, string> = {};
+    mcpConnectors.forEach(c => { if (c.apiKeyValue) keys[c.id] = c.apiKeyValue; });
+    try { localStorage.setItem(MCP_KEYS_STORAGE, JSON.stringify(keys)); } catch {}
+  }, [mcpConnectors]);
   const [profiles, setProfiles] = useState<CandidateProfile[]>(initialCandidateProfiles);
   const [wishlist, setWishlist] = useState<WishlistApplicant[]>(initialWishlistApplicants);
   const [jobs, setJobs] = useState<ScrapedJob[]>(scrapedJobsList);

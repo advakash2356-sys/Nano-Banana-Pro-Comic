@@ -82,3 +82,9 @@ Open http://localhost:3000 after `npm run dev`. The application entry point is c
 ├── tsconfig.json
 ├── vite.config.ts
 └── wiz_global_data.json
+
+## Your API keys
+
+No keys are committed. Open the MCP Hub panel in the app and paste your own key for each connector (e.g. `GEMINI_API_KEY`); it is saved only in your browser's `localStorage`. Optionally set `VITE_GEMINI_API_KEY` in a local `.env` (git-ignored; see `.env.example`). Note: the connectors in this demo are simulated; the UI does not send your keys anywhere.
+
+> Earlier commits contained a placeholder-style key and scraped dump files. If any real Google key was ever committed, rotate it in the Google Cloud console, since git history keeps it.

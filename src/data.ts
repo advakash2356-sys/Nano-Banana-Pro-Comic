@@ -57,22 +57,22 @@ export const panelsData: PanelData[] = [
 ];
 
 // MCP Hub Configuration
-export const initialMcpConnectors: McpConnector[] = [
+const defaultMcpConnectors: McpConnector[] = [
   {
     id: 'mcp-scraper',
     name: 'MCP Universal Web Scraper',
     category: 'Scraper',
     description: 'Bypasses standard site blocks to harvest accurate raw markdown job specifications from LinkedIn, Indeed, and corporate careers listing pages.',
-    status: 'active',
+    status: 'inactive',
     requiredKey: 'SCRAPER_ENDPOINT_TOKEN',
-    apiKeyValue: 'REMOVED'
+    apiKeyValue: ''
   },
   {
     id: 'mcp-gmail',
     name: 'MCP Secure Gmail Client',
     category: 'Gmail',
     description: 'Drafts, schedules, and sends ultra-customized surgical cover letters directly via SMTP/OAuth. Respects strict daily delivery caps to avoid spam tags.',
-    status: 'active',
+    status: 'inactive',
     requiredKey: 'GMAIL_OAUTH_REFRESH_TOKEN',
     apiKeyValue: ''
   },
@@ -90,20 +90,34 @@ export const initialMcpConnectors: McpConnector[] = [
     name: 'MCP Gemini 3 Pro Agent Engine',
     category: 'Gemini',
     description: 'Enables high-context deep thinking model loops using the server-side API to construct human-crafted prose, completely removing AI watermarks.',
-    status: 'active',
+    status: 'inactive',
     requiredKey: 'GEMINI_API_KEY',
-    apiKeyValue: 'AIzaSyCh3_BananaKey_Active'
+    apiKeyValue: ''
   },
   {
     id: 'mcp-search',
     name: 'MCP Google Search Grounding',
     category: 'Search',
     description: 'Queries active web trends to supply live company cultural values, recent leadership quotes, and product language for hyper-specific optimization.',
-    status: 'active',
+    status: 'inactive',
     requiredKey: 'GOOGLE_CUSTOM_SEARCH_ID',
-    apiKeyValue: 'gcs_banana_pro_search'
+    apiKeyValue: ''
   }
 ];
+
+// Keys are never committed: they come from the user's browser (localStorage),
+// or from VITE_GEMINI_API_KEY at build time for the Gemini connector.
+export const MCP_KEYS_STORAGE = 'mcpConnectorKeys';
+export function loadMcpConnectors(): McpConnector[] {
+  let saved: Record<string, string> = {};
+  try { saved = JSON.parse(localStorage.getItem(MCP_KEYS_STORAGE) || '{}'); } catch { saved = {}; }
+  const envGemini = (import.meta as any).env?.VITE_GEMINI_API_KEY || '';
+  return defaultMcpConnectors.map(c => {
+    const key = saved[c.id] || (c.id === 'mcp-gemini' ? envGemini : '');
+    return { ...c, apiKeyValue: key, status: key.trim() ? 'active' : 'inactive' } as McpConnector;
+  });
+}
+export const initialMcpConnectors: McpConnector[] = loadMcpConnectors();
 
 // Master recruiter prompt with 20 years experience blueprint
 export const RECRUITER_MASTER_PROMPT = `You are a legendary executive recruiter with over 20 years of experience placing high-impact leaders and individual contributors into Tier-1 tech giants and innovative startups. 
