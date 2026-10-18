@@ -20,11 +20,13 @@ Nano Banana Pro Comic by Adv. Akash Sharma.
 
 ## Setup
 
-Setup details and specific package manager scripts are not defined in the repository files. A `.env.example` file is provided for environment configuration.
+1. `npm install`
+2. Copy `.env.example` to `.env` if you need to set variables.
+3. `npm run dev` (Vite on port 3000) or `npm run build` to produce `dist/`; `npm run lint` runs `tsc --noEmit`.
 
 ## Usage
 
-Usage instructions are not specified in the repository files. The application entry point is configured via `index.html` and `src/main.tsx`.
+Open http://localhost:3000 after `npm run dev`. The application entry point is configured via `index.html` and `src/main.tsx`.
 
 ## Project Structure
 
